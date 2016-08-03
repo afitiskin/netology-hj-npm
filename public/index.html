@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Автоматизация задач с помощью менеджера зависимостей NPM</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="shower/themes/ribbon/styles/screen-16x10.css">
+    <link rel="stylesheet" href="styles/custom.css">
+</head>
+<body class="shower">
+<header class="caption">
+    <h1>Автоматизация задач с помощью менеджера зависимостей NPM</h1>
+    <p>Университет &laquo;Нетология&raquo;</p>
+</header>
+
+<section class="slide first-slide">
+    <h2>Автоматизация задач с помощью менеджера зависимостей NPM</h2>
+    <p><a href="https://facebook.com/alexfitiskin">Александр Фитискин</a>, Front-end web developer at <a
+        href="https://webzilla.com">Webzilla</a></p>
+</section>
+
+<section class="slide">
+    <figure>
+        <img class="company-logo" src="/pictures/nodejs.png" alt="Node.js"/>
+    </figure>
+</section>
+
+<section class="slide">
+    <h2>Node.js</h2>
+    <figure>
+        <blockquote>
+            <p>
+                <strong>Node</strong> или <strong>Node.js</strong> — программная платформа, основанная на <a href="https://ru.wikipedia.org/wiki/V8_(%D0%B4%D0%B2%D0%B8%D0%B6%D0%BE%D0%BA_JavaScript)">движке V8</a>,
+                превращающая JavaScript из узкоспециализированного языка в язык общего назначения.
+                Node.js добавляет возможность JavaScript взаимодействовать с устройствами ввода-вывода и подключать
+                внешние библиотеки. Node.js применяется преимущественно на сервере, выполняя роль веб-сервера, но есть
+                возможность разрабатывать на Node.js и десктопные оконные приложения и даже программировать
+                микроконтроллеры.
+            </p>
+        </blockquote>
+        <figcaption>
+            <a target="_blank" href="https://ru.wikipedia.org/wiki/Node.js">Описание из Википедии</a>
+        </figcaption>
+    </figure>
+</section>
+
+<section class="slide">
+    <h2>Установка Node.js</h2>
+    <ul>
+        <li>
+            <a href="https://nodejs.org/en/download/">Установка с использованием специального установщика</a>
+            <br>
+            (по принципу: «скачал – запустил – установил»)
+        </li>
+        <li>
+            <a href="https://nodejs.org/en/download/package-manager/">Установка с использованием менеджера пакетов операционной системы</a>
+            <br>
+            (для продвинутых пользователей)
+        </li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Система управления пакетами</h2>
+    <figure>
+        <blockquote>
+            <p><strong>Система управления пакетами</strong> — набор программного обеспечения, позволяющего управлять
+                процессом установки, удаления, настройки и обновления различных компонентов программного обеспечения.
+                Системы управления пакетами активно используются в различных дистрибутивах операционной системы Linux и
+                других UNIX-подобных операционных системах.</p>
+        </blockquote>
+        <figcaption>
+            <a target="_blank" href="https://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F_%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%B0%D0%BC%D0%B8">Описание из Википедии</a>
+        </figcaption>
+    </figure>
+</section>
+
+<section class="slide">
+    <h2>Менеджер пакетов</h2>
+    <figure class="two-pictures">
+        <img src="/pictures/manager.jpg" alt="Менеджер"/>
+        <img src="/pictures/package.jpg" alt="Пакет"/>
+    </figure>
+</section>
+
+<section class="slide">
+    <h2>Менеджер пакетов NPM</h2>
+    <figure>
+        <img class="company-logo" src="/pictures/npm.png" alt="Node package manager"/>
+    </figure>
+</section>
+
+<section class="slide">
+    <h2>Зачем нужен менеджер пакетов?</h2>
+    <pre class="big-code">
+        <code>function preloadImages(images) {</code>
+        <code>  images.forEach(function (src) {</code>
+        <code>    var img = document.createElement('img');</code>
+        <code>    img.src = src;</code>
+        <code>    document.body.appendChild(img);</code>
+        <code>    document.body.removeChild(img);</code>
+        <code>  });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Зачем нужен менеджер пакетов?</h2>
+    <p>Как использовать эту функцию в другом проекте?</p>
+    <ul>
+        <li>Скопировать функцию в <code>script.js</code> другого проекта</li>
+        <li>Сохранить функцию в отдельный файл, скопировать файл в другой проект и подключить</li>
+        <li>Сохранить функцию в отдельны файл, загрузить на CDN, подключить с CDN в другом проекте</li>
+        <li>...</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Зачем нужен менеджер пакетов?</h2>
+    <p>А что если в вашей функции найдется ошибка?</p>
+    <ul>
+        <li>Пролистать код проекта, поискать не используется ли там эта функция, заменить функцию</li>
+        <li>Поискать файл с функцией в другом проекте, обновить файл целиком</li>
+        <li>Обновить файл на CDN, обновить ссылку на CDN в проектах</li>
+        <li>...</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Зачем нужен менеджер пакетов?</h2>
+    <p>А что если таких проектов много?</p>
+    <ul>
+        <li>???</li>
+        <li>!!!</li>
+        <li>...</li>
+        <li>Ну его, этот ваш front-end, поищу другую работу</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Зачем нужен менеджер пакетов?</h2>
+    <ul>
+        <li>Позволяет использовать в вашем проекте различные библиотеки и плагины (зависимости)</li>
+        <li>Позволяет легко устанавливать, обновлять, удалять зависимости</li>
+        <li>Позволяет легко понять, какие зависимости используются в вашем проекте</li>
+        <li>Позволяют автоматизировать рутинные задачи</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Что умеет NPM?</h2>
+    <ul>
+        <li>Поиск пакетов</li>
+        <li>Просмотр информации о пакете</li>
+        <li>Установка пакетов</li>
+        <li>Удаление установленных пакетов</li>
+        <li>Создание и публикация нового пакета</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Поиск пакетов в NPM</h2>
+    <pre class="code">
+        <code>&gt; npm search fotorama</code>
+        <code><mark>npm WARN</mark> Building the local index for the first time</code>
+        <code>ap.<mark class="important">fotorama</mark>          Angular module for Fotorama</code>
+        <code>ember-cli-<mark class="important">fotorama</mark>   Ember addon wrapper for fotorama</code>
+        <code><mark class="important">fotorama</mark>             A simple, stunning, powerful gallery.</code>
+        <code><mark class="important">fotorama</mark>2            Gallery written on top of ES6.</code>
+    </pre>
+    <p class="note">Так же можно искать пакеты на <a href="https://www.npmjs.com/">npmjs.com</a></p>
+</section>
+
+<section class="slide">
+    <h2>Просмотр информации о пакете</h2>
+    <pre class="big-code">
+        <code>&gt; npm view fotorama</code>
+        <code>{</code>
+        <code>  name: 'fotorama',</code>
+        <code>  description: 'A simple, stunning, powerful jQuery gallery.',</code>
+        <code>  'dist-tags': { latest: '4.6.4' },</code>
+        <code>  versions: [ '4.6.0-hot', '4.6.0', '4.6.1', '4.6.2', '4.6.3', '4.6.4' ],</code>
+        <code>  maintainers: [ 'artpolikarpov &lt;artpolikarpov@gmail.com&gt;' ],</code>
+        <code>  ...</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Установка пакетов</h2>
+    <p>Есть несколько вариантов установки:</p>
+    <ul>
+        <li>Простая установка пакета</li>
+        <li>Глобальная установка пакета в систему</li>
+        <li>Установка пакета в качестве зависимости для вашего приложения</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Простая установка пакета</h2>
+    <pre class="code">
+        <code>&gt; npm install fotorama</code>
+    </pre>
+    <p>
+        После этого в текущей директории появится новая директория <code>node_modules</code> а в ней директория <code>fotorama</code>.
+    </p>
+    <p class="note">
+        При установке пакетов в директории <code>node_modules</code> могут появляться не только директории установленных
+        вами пакетов, но и их зависимостей (в случае <code>fotorama</code> в <code>node_modules</code> появится так же
+        директория <code>jquery</code>)
+    </p>
+</section>
+
+<section class="slide">
+    <h2>Глобальная установка пакета</h2>
+    <pre class="code">
+        <code>&gt; npm install -g http-server</code>
+    </pre>
+    <p>
+        При этом пакет <code>http-server</code> будет установлен не в текущую директорию, а в директорию для глобально
+        установленных пакетов. Она одна для пользователя в системе.
+    </p>
+    <p class="big-note">
+        Устанавливайте глобально только те пакеты, которые специально для этого созданы. Как правило
+        глобально устанавливаются пакеты, предоставляющие исполняемый файл (приложение для командной строки, например
+        <code>http-server</code>).
+    </p>
+</section>
+
+<section class="slide">
+    <h2>Установка пакета в качестве зависимости для вашего приложения</h2>
+
+    <p class="big-note">Для установки пакетов, которые непосредственно используются в вашем приложении:</p>
+    <pre class="code">
+        <code>&gt; npm install --save fotorama</code>
+    </pre>
+
+    <p class="big-note">Для установки вспомогательный пакетов, которые используются в разработке:</p>
+    <pre class="code">
+        <code>&gt; npm install --save-dev less</code>
+    </pre>
+</section>
+
+
+<section class="slide">
+    <h2>Установка пакета в качестве зависимости для вашего приложения</h2>
+
+    <pre class="code">
+        <code>&gt; npm install --save fotorama</code>
+        <code>npm <mark>WARN</mark>: no such file or directory</code>
+        <code>  open '/Users/alexfitiskin/project/package.json'</code>
+    </pre>
+
+    <p>Что такое <code>package.json</code>?</p>
+</section>
+
+<section class="slide">
+    <h2>package.json</h2>
+    <ul>
+        <li><a href="https://docs.npmjs.com/files/package.json" target="_blank">Официальная документация</a></li>
+        <li><a href="http://browsenpm.org/package.json" target="_blank">Интерактивная шпаргалка</a></li>
+    </ul>
+
+    <p>
+        Если коротко, то <code>package.json</code> – это JSON-файл с «аннотацией» вашего проекта (название, версия, зависимости и многое другое)
+        <br>
+        Его можно создать вручную или же воспользоваться командой:
+    </p>
+    <pre class="code">
+        <code>&gt; npm init</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>NPM scripts</h2>
+    <p>
+        Одним из параметров в файле <code>package.json</code> является параметр <code>scripts</code>. Этот параметр описывает команды, которые доступны при использовании вашего пакета.
+    </p>
+    <p>
+        Частью ядра NPM является команда <code>npm run-script</code> (или <code>npm run</code>). Эта команда использует объект <code>scripts</code> из вашего <code>package.json</code>.
+    </p>
+</section>
+
+<section class="slide">
+    <h2>NPM scripts</h2>
+    <pre class="code">
+        <code>&gt; npm run</code>
+    </pre>
+    <p class="big-note">Команда <code>npm run</code> без параметров выведет все доступные скрипты, описанные в <code>package.json</code></p>
+
+    <pre class="code">
+        <code>&gt; npm run command</code>
+    </pre>
+    <p class="big-note">Первый параметр, переданный в <code>npm run</code> (в данном примере <code>command</code>) запустит скрипт, описанный в аттрибуте <code>command</code> параметра <code>scripts</code> из вашего <code>package.json</code> </p>
+</section>
+
+<section class="slide">
+    <h2>NPM scripts</h2>
+    <p class="big-note">Содержимое файла <code>package.json</code>:</p>
+    <pre class="large-code">
+        <code>{</code>
+        <code>  ...</code>
+        <code>  "scripts": {</code>
+        <code>    "command": "echo 'Hello world!'"</code>
+        <code>  },</code>
+        <code>  ...</code>
+        <code>}</code>
+    </pre>
+
+    <p class="big-note">Пример использования:</p>
+    <pre class="large-code">
+        <code>&gt; npm run command</code>
+        <code>&gt; Hello world</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>NPM scripts для компиляции less</h2>
+    <ol>
+        <li>Если проект еще не содержит <code>package.json</code>, то используем <code>npm init</code> для создания этого файла</li>
+        <li>Установим <code>less</code> как локальную зависимость: <br><code>npm install --save-dev less</code></li>
+        <li>Добавим в <code>package.json</code> новый скрипт под названием <code>build-styles</code> с содержимым: <br><code>lessc src/styles.less dist/styles.css</code></li>
+        <li>Проверим работу скрипта <code>npm run build-styles</code></li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h2>NPM scripts для компиляции less</h2>
+    <pre class="large-code">
+        <code>{</code>
+        <code>  ...</code>
+        <code>  "devDependencies": {</code>
+        <code>    "less": "latest"</code>
+        <code>  },</code>
+        <code>  "scripts": {</code>
+        <code>    "build-styles": "lessc src/styles.less dist/styles.css"</code>
+        <code>  },</code>
+        <code>  ...</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Добавим сжатие css</h2>
+    <ol>
+        <li>Установим <code>cssmin</code> как локальную зависимость: <br><code>npm install --save-dev cssmin</code></li>
+        <li>
+            Обновим скрипт <code>build-styles</code> переадресовав результат компиляции <code>less</code> в <code>cssmin</code> используя символ <code>|</code> (shell):
+            <br>
+            <code>lessc src/styles.less | cssmin > dist/styles.css</code>
+        </li>
+        <li>Проверим работу скрипта <code>npm run build-styles</code></li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h2>NPM scripts для компиляции less</h2>
+    <pre class="large-code">
+        <code>{</code>
+        <code>  ...</code>
+        <code>  "devDependencies": {</code>
+        <code>    "less": "latest",</code>
+        <code>    "cssmin": "latest"</code>
+        <code>  },</code>
+        <code>  "scripts": {</code>
+        <code>    "build-styles": "lessc src/styles.less | cssmin > dist/styles.css"</code>
+        <code>  },</code>
+        <code>  ...</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>NPM scripts для компиляции javascript</h2>
+    <ol>
+        <li>Установим <code>browserify</code> как локальную зависимость: <br><code>npm install --save-dev browserify</code></li>
+        <li>Добавим сприпт <code>build-scripts</code>:<br><code>browserify src/main.js > dist/main.js</code></li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h2>NPM scripts для компиляции javascript</h2>
+    <pre class="large-code">
+        <code>{</code>
+        <code>  ...</code>
+        <code>  "devDependencies": {</code>
+        <code>    "less": "latest",</code>
+        <code>    "cssmin": "latest",</code>
+        <code>    "browserify": "latest"</code>
+        <code>  },</code>
+        <code>  "scripts": {</code>
+        <code>    "build-scripts": "browserify src/main.js > dist/main.js",</code>
+        <code>    "build-styles": "lessc src/styles.less | cssmin > dist/styles.css"</code>
+        <code>  },</code>
+        <code>  ...</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Добавим очистку директории <code>dist</code></h2>
+    <ol>
+        <li>Установим <code>rimraf</code> как локальную зависимость: <br><code>npm install --save-dev rimraf</code></li>
+        <li>
+            Добавим скрипт <code>clean</code>:
+            <br>
+            <code>rimraf dist</code>
+        </li>
+        <li>Проверим работу скрипта <code>npm run clean</code></li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h2>Добавим очистку директории <code>dist</code></h2>
+    <pre class="large-code">
+        <code>{</code>
+        <code>  ...</code>
+        <code>  "devDependencies": {</code>
+        <code>    "less": "latest",</code>
+        <code>    "cssmin": "latest",</code>
+        <code>    "browserify": "latest",</code>
+        <code>    "rimraf": "latest"</code>
+        <code>  },</code>
+        <code>  "scripts": {</code>
+        <code>    "build-scripts": "browserify src/main.js > dist/main.js",</code>
+        <code>    "build-styles": "lessc src/styles.less | cssmin > dist/styles.css",</code>
+        <code>    "clean": "rimraf dist"</code>
+        <code>  },</code>
+        <code>  ...</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Итоговая конфигурация</h2>
+    <pre class="large-code">
+        <code>{</code>
+        <code>  ...</code>
+        <code>  "devDependencies": {</code>
+        <code>    "less": "latest",</code>
+        <code>    "cssmin": "latest",</code>
+        <code>    "browserify": "latest",</code>
+        <code>    "rimraf": "latest"</code>
+        <code>  },</code>
+        <code>  "scripts": {</code>
+        <code>    "build-scripts": "browserify src/main.js > dist/main.js",</code>
+        <code>    "build-styles": "lessc src/styles.less | cssmin > dist/styles.css",</code>
+        <code>    "clean": "rimraf dist",</code>
+        <code>    "build": "build-styles && build-scripts",</code>
+        <code>    "prebuild": "npm run clean",</code>
+        <code>  },</code>
+        <code>  ...</code>
+        <code>}</code>
+    </pre>
+    </section>
+</section>
+
+<div class="progress"></div>
+<script src="shower/shower.min.js"></script>
+</body>
+</html>
